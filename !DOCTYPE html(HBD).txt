@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Romantic Birthday Wish Video Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  :root {
+    --primary-color: #ff4d6d;
+    --secondary-color: #ffe0e6;
+    --accent-color: #ff1a3c;
+    --bg-gradient: linear-gradient(135deg, #ffccd2 0%, #fff0f3 100%);
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --romantic-font: 'Great Vibes', cursive;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--accent-color);
+  }
+
+  .container {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 25px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(255 77 109 / 0.45);
+    position: relative;
+    z-index: 3;
+  }
+
+  h1 {
+    font-family: var(--romantic-font);
+    font-size: 3rem;
+    margin-bottom: 0.2em;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px #ff4d6d90;
+  }
+
+  input[type="text"] {
+    padding: 0.9rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    border: 2px solid var(--secondary-color);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1.4rem;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 7px 25px rgba(255 77 109 / 0.7);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 0.3rem;
+  }
+  button:hover:not(:disabled) {
+    background-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(255 26 60 / 0.85);
+  }
+  button:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  #buttons-wrap {
+    margin-top: 1rem;
+  }
+
+  #wishMessage {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: var(--romantic-font);
+    color: var(--accent-color);
+    min-height: 8em;
+    text-align: left;
+    white-space: pre-wrap;
+    position: relative;
+    filter: drop-shadow(0 0 6px rgba(255 41 79 / 0.6));
+    user-select: none;
+  }
+
+  .message-line {
+    margin-bottom: 0.8rem;
+    letter-spacing: 1.2px;
+    opacity: 0;
+    filter: drop-shadow(0 0 6px rgba(255 41 79 / 0.8));
+  }
+  .message-line.visible {
+    opacity: 1;
+    animation: glowPulse 2s ease-in-out infinite alternate;
+  }
+
+  /* Heart background animation */
+  .heart {
+    position: absolute;
+    background-color: var(--primary-color);
+    opacity: 0.6;
+    transform: rotate(45deg);
+    animation: floatUp 7s linear infinite;
+    border-radius: 15% 15% 50% 50%;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-name: floatUp, pulse;
+    animation-duration: 7s, 2s;
+  }
+  .heart:after,
+  .heart:before {
+    content: "";
+    position: absolute;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+  }
+  .heart:before {
+    width: 60%;
+    height: 60%;
+    top: -50%;
+    left: 0;
+  }
+  .heart:after {
+    width: 60%;
+    height: 60%;
+    left: 50%;
+    top: 0;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(100vh) rotate(45deg);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(-20vh) rotate(45deg);
+      opacity: 0;
+    }
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1) rotate(45deg);
+    }
+    50% {
+      transform: scale(1.2) rotate(45deg);
+    }
+    100% {
+      transform: scale(1) rotate(45deg);
+    }
+  }
+
+  @keyframes glowPulse {
+    0% {
+      text-shadow: 0 0 6px rgba(255 41 79 / 0.9), 0 0 12px rgba(255 41 79 / 0.7);
+    }
+    100% {
+      text-shadow: 0 0 10px rgba(255 41 79 / 1), 0 0 25px rgba(255 41 79 / 0.8);
+    }
+  }
+
+  /* Sparkles background */
+  .sparkle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow:
+      0 0 6px 2px white;
+    animation: sparkleFade 3s linear infinite;
+  }
+  @keyframes sparkleFade {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Music control button */
+  #musicControlBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255 77 109 / 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    transition: background-color 0.3s ease;
+  }
+  #musicControlBtn:hover {
+    background-color: var(--accent-color);
+    box-shadow: 0 8px 25px rgba(255 26 60 / 0.9);
+  }
+</style>
+</head>
+<body>
+  <button id="musicControlBtn" aria-label="Toggle music" title="Toggle music">🔈</button>
+  <div class="container" role="main" aria-label="Romantic Birthday Wish Application">
+    <h1>Happy Birthday</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name" aria-label="Name input" />
+    <div id="buttons-wrap">
+      <button id="wishBtn" aria-label="Send romantic birthday wish">Send Wish 💖</button>
+      <button id="replayBtn" aria-label="Replay birthday wish animation" disabled>Replay ↻</button>
+    </div>
+    <div id="wishMessage" aria-live="polite"></div>
+  </div>
+
+  <audio id="romanticMusic" autoplay loop muted>
+    <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_8fe2a6fca4.mp3?filename=romantic-118326.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+<script>
+  const nameInput = document.getElementById('nameInput');
+  const wishBtn = document.getElementById('wishBtn');
+  const replayBtn = document.getElementById('replayBtn');
+  const wishMessage = document.getElementById('wishMessage');
+  const romanticMusic = document.getElementById('romanticMusic');
+  const musicControlBtn = document.getElementById('musicControlBtn');
+
+  // Handle music play/pause toggle with icon update
+  function updateMusicIcon() {
+    musicControlBtn.textContent = romanticMusic.muted ? '🔈' : '🔊';
+  }
+
+  musicControlBtn.addEventListener('click', () => {
+    romanticMusic.muted = !romanticMusic.muted;
+    updateMusicIcon();
+  });
+
+  updateMusicIcon();
+
+  // Start music unmuted after user interaction (most browsers require this)
+  function unmuteMusic() {
+    romanticMusic.muted = false;
+    updateMusicIcon();
+    window.removeEventListener('click', unmuteMusic);
+    window.removeEventListener('keydown', unmuteMusic);
+  }
+  window.addEventListener('click', unmuteMusic);
+  window.addEventListener('keydown', unmuteMusic);
+
+  // Create sparkles in the background
+  function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('sparkle');
+    const size = Math.random() * 4 + 2; // 2px to 6px
+    sparkle.style.width = size + 'px';
+    sparkle.style.height = size + 'px';
+    sparkle.style.top = Math.random() * 100 + 'vh';
+    sparkle.style.left = Math.random() * 100 + 'vw';
+    sparkle.style.animationDuration = 3 + Math.random() * 3 + 's';
+    sparkle.style.animationDelay = Math.random() * 3 + 's';
+    document.body.appendChild(sparkle);
+    setTimeout(() => {
+      sparkle.remove();
+    }, 6000);
+  }
+  setInterval(createSparkle, 400);
+
+  // Typewriter effect for a line, returns a promise that resolves after typing
+  function typeLine(element, text, speed = 50) {
+    return new Promise((resolve) => {
+      let i = 0;
+      element.textContent = '';
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          resolve();
+        }
+      }
+      type();
+    });
+  }
+
+  // Show lines one by one with typewriter and glow effect
+  async function showLinesSequentially(lines) {
+    wishMessage.innerHTML = '';
+    for (let text of lines) {
+      const lineElem = document.createElement('div');
+      lineElem.classList.add('message-line');
+      wishMessage.appendChild(lineElem);
+      await typeLine(lineElem, text);
+      lineElem.classList.add('visible');
+      // Wait before next line
+      await new Promise(res => setTimeout(res, 1200));
+    }
+  }
+
+  // Disable/Enable input and buttons while animating
+  function setControlsDisabled(disabled) {
+    nameInput.disabled = disabled;
+    wishBtn.disabled = disabled;
+    replayBtn.disabled = disabled;
+  }
+
+  async function playWishAnimation(name) {
+    setControlsDisabled(true);
+    const lines = [
+      `Happy Birthday, ${name}! 🎉🎂`,
+      `Wishing you a day filled with love, joy, and wonderful memories!`,
+      `May ALLAH bless you and always keep smiling. ✨😊`,
+      `You look very beautiful when you smile. 🌸💖`,
+      `I love you! ❤️🤗`
+    ];
+    await showLinesSequentially(lines);
+    setControlsDisabled(false);
+    replayBtn.disabled = false;
+  }
+
+  wishBtn.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    if (name === '') {
+      wishMessage.style.color = '#b00020'; // error color
+      wishMessage.textContent = 'Please enter a name to send a birthday wish.';
+      return;
+    }
+    wishMessage.style.color = 'var(--accent-color)';
+    playWishAnimation(name);
+    nameInput.value = '';
+  });
+
+  replayBtn.addEventListener('click', () => {
+    const lastName = replayBtn.getAttribute('data-name');
+    if (lastName) {
+      playWishAnimation(lastName);
+    }
+  });
+
+  // Save last entered name for replay
+  wishBtn.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    if (name !== '') {
+      replayBtn.setAttribute('data-name', name);
+    }
+  });
+
+  nameInput.addEventListener('keydown', (event) => {
+    if(event.key === 'Enter') {
+      wishBtn.click();
+    }
+  });
+
+  // Create floating hearts dynamically
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    const size = Math.random() * 20 + 15; // 15px to 35px
+    heart.style.width = size + 'px';
+    heart.style.height = size + 'px';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 7000);
+  }
+
+  setInterval(createHeart, 300);
+</script>
+</body>
+</html>
+
