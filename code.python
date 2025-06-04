@@ -1,0 +1,5 @@
+def birthday_wish(name):
+    print(f"Happy Birthday, {name}! 🎉🎂 Wishing you a day filled with love, joy, and wonderful memories!")
+
+# Example usage
+birthday_wish("Alice")
